@@ -17,10 +17,19 @@ namespace AbwesendheitsprogrammReworked
     /// </summary>
     public partial class MainWindow : Window
     {
+        LogInController logInController;
         public MainWindow()
         {
             InitializeComponent();
-            LogInController logInController = new LogInController(new Models.User(0, "", "", "", ""), this);
+            logInController = new LogInController(new Models.User(0, "", "", "", ""), this);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string username = UsernameTB.Text;
+            string password = PasswordTB.Password;
+
+            bool isLoggedIn = logInController.tryLogIn(username, password);
         }
     }
 }

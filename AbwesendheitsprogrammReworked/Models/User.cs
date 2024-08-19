@@ -49,5 +49,58 @@ namespace AbwesendheitsprogrammReworked.Models
                 }
             }
         }
+
+        public List<User> GetUsers(string username) 
+        {
+            List<User> users = new List<User>();
+            using (MySqlConnection conn = new MySqlConnection(Properties.Settings.Default.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    MySqlDataReader dataReader;
+                    string query = "SELECT * FROM users where name = @username";
+                    MySqlCommand command = new MySqlCommand(query, conn);
+                    command.Parameters.Add(new MySqlParameter("@username", username));
+                    dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        users.Add(new User(dataReader.GetInt32("id"), dataReader.GetString("name"), dataReader.GetString("email"), dataReader.GetString("password"), dataReader.GetString("telNr")));
+                    }
+                    return users;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                    throw;
+                }
+            }
+        }
+
+
+        public int getID()
+        {
+            return ID;
+        }
+
+        public string getName()
+        {
+            return Name;
+        }
+
+        public string getEmail()
+        {
+            return Email;
+        }
+
+        public string getPassword()
+        {
+            return Password;
+        }
+
+        public string getPhoneNumber()
+        {
+            return PhoneNumber;
+        }
     }
 }
