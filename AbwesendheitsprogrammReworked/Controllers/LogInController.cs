@@ -1,9 +1,5 @@
 ﻿using AbwesendheitsprogrammReworked.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AbwesendheitsprogrammReworked.Utils;
 
 namespace AbwesendheitsprogrammReworked.Controllers
 {
@@ -23,6 +19,19 @@ namespace AbwesendheitsprogrammReworked.Controllers
         private void instiateTables() 
         {
             model.executeQuerry("CreateTables");
+        }
+
+        public bool tryLogIn(string username, string password)
+        {
+            bool isLoggedIn = false;
+
+            List<User> users = model.GetUsers(username);
+            foreach (User user in users)
+            {
+                if (user.getName() == username && Cryptography.ValidatePassword(password, user.getPassword())) { return true; }
+            }
+
+            return isLoggedIn;
         }
     }
 }
